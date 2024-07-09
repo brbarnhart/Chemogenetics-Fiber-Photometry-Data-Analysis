@@ -132,6 +132,18 @@ end
             DF_Base(:,i)=DF_Base(:,i)-DF_Base(1,i); %zero to first point
             DF_ZScore(:,counter)=(DF_Event(:,i)-median(DF_Base(:,i)))./mad(DF_Base(:,i)); %Z-Score
             counter=counter+1;
+            %Center data and generate Delta F/F (DF_F) by dividing
+            %event window by median of baseline window.
+            DF_Event(:,i)=(F490(:,1)-Y_Fit(:,1));
+            DF_F(:,i)=DF_Event(:,i)./(Y_Fit); %Delta F/F
+            DF_F(:,i)=DF_F(:,i)-DF_F(1,i);
+            
+            DF_Event(:,i)=(F490(:,1)-Y_Fit(:,1));
+            DF_Event(:,i)=DF_Event(:,i)-DF_Event(1,i); %zero first point
+            DF_Base(:,i)=(F490CSBL(:,1)-Y_Fit_base(:,1));
+            DF_Base(:,i)=DF_Base(:,i)-DF_Base(1,i); %zero to first point
+            DF_ZScore(:,counter)=(DF_Event(:,i)-median(DF_Base(:,i)))./mad(DF_Base(:,i)); %Z-Score
+            counter=counter+1;
            %%Plot Function to compare Robust Z-Score to DF/F            
 %             figure; plot(DF_F(:,i)*100);
 %             hold on; plot(DF_ZScore(:,i));
