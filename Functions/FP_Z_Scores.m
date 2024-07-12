@@ -159,11 +159,18 @@ function [output_table,individual_trials] = FP_Z_Scores(blockpath, EXPERIMENT, S
     DF_ZScore=tmp2;
     zStdError = std(DF_ZScore)/sqrt(size(DF_ZScore,1));
 
+    %% Find mean z-score
+    zGCAMP_Mean=(mean(DF_ZScore,1));
+
     %% Exporting data formated as a table
     output_table = table( ...
         tsGCAMP', zGCAMP_Mean', zStdError', ...
         'VariableNames', {'Time', 'Z Score', 'Std Dev'} ...
     );
-    individual_trials = cell(tsGCAMP, DF_ZScore);
+    time_series = num2cell(tsGCAMP');
+    dims = size(DF_ZScore');
+    trial_data = mat2cell(DF_ZScore', ones(1,dims(1)), ones(1,dims(2)));
 
+    individual_trials = horzcat(time_series,trial_data);
+    
 end
